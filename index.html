@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(주)비엠와이즈 - 업무 전산화 전문 기업</title>
+    <!-- 외부 라이브러리 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Noto Sans KR"', 'sans-serif'] },
+                    colors: {
+                        navy: { 50: '#f0f4f8', 100: '#d9e2ec', 500: '#334e68', 800: '#102a43', 900: '#0a192f' },
+                        point: { 500: '#f59e0b', 600: '#d97706' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans KR', sans-serif; margin: 0; background-color: #f8fafc; overflow-x: hidden; }
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+        
+        /* PC 화면 꽉 참 제어 및 스냅 */
+        @media (min-width: 1025px) {
+            .snap-page {
+                scroll-snap-align: start;
+                height: 100vh;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                position: relative;
+            }
+        }
+
+        /* 모바일 대응 */
+        @media (max-width: 1024px) {
+            html { scroll-snap-type: none; }
+            .snap-page { 
+                height: auto; 
+                min-height: 100vh; 
+                padding-top: 4rem; 
+                display: flex; 
+                flex-direction: column; 
+            }
+            .info-footer-bar {
+                padding-bottom: 4rem !important; 
+            }
+        }
+
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .info-footer-bar {
+            background-color: #f3f4f6;
+            border-top: 1px solid #e5e7eb;
+            padding: 0.7rem 0;
+            text-align: center;
+            width: 100%;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        /* 모바일 메뉴 애니메이션 */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.active {
+            max-height: 450px;
+            opacity: 1;
+        }
+
+        /* 모바일 아이콘 토글 */
+        #mobile-menu-btn .close-icon { display: none; }
+        #mobile-menu-btn.is-active .menu-icon { display: none; }
+        #mobile-menu-btn.is-active .close-icon { display: block; }
+
+        /* 호버 시 아이콘 애니메이션 */
+        .group:hover .menu-icon-move {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+
+        /* [수정] 제품소개 하단 상세메뉴 영역 - 높이를 더 줄여서 정갈하게 배치 */
+        .fixed-detail-box {
+            height: 100px; 
+        }
+        @media (min-width: 768px) {
+            .fixed-detail-box { height: 120px; }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- 상단 헤더 -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-[100] h-16 md:h-20">
+        <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <img src="images/logo.png" alt="BM WISE" class="h-8 md:h-10" onerror="this.src='https://placehold.co/180x50/102a43/ffffff?text=BM+WISE'">
+            </div>
+            
+            <nav class="hidden md:flex space-x-8 font-bold text-gray-600">
+                <a href="#hero" class="hover:text-navy-800 transition">홈</a>
+                <a href="#company" class="hover:text-navy-800 transition">회사소개</a>
+                <a href="#product" class="hover:text-navy-800 transition">제품소개</a>
+                <a href="#demo" class="hover:text-navy-800 transition">데모다운로드</a>
+                <a href="#remote-support" class="hover:text-navy-800 transition">원격지원</a>
+                <a href="#location" class="hover:text-navy-800 transition">오시는길</a>
+            </nav>
+
+            <button id="mobile-menu-btn" class="md:hidden text-navy-800 p-2 focus:outline-none">
+                <i data-lucide="menu" class="w-7 h-7 menu-icon"></i>
+                <i data-lucide="x" class="w-7 h-7 close-icon"></i>
+            </button>
+
+            <div class="hidden md:flex items-center gap-4 text-right">
+                <div class="text-xs text-gray-500 font-medium">
+                    <p>대표전화 <span class="text-navy-800 font-bold">02-831-4177</span></p>
+                    <p>재무/회계 <span class="text-navy-800 font-bold">070-4896-1672</span></p>
+                </div>
+                <a href="#remote-support" class="bg-navy-800 text-white px-4 py-2 rounded font-bold text-sm shadow-md flex items-center gap-2 hover:bg-navy-900 transition">
+                    <i data-lucide="monitor-play" class="w-4 h-4"></i> 원격지원
+                </a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 shadow-xl overflow-hidden">
+            <div class="flex flex-col p-4 space-y-4 font-bold text-gray-700">
+                <a href="#hero" class="mobile-link py-2 border-b border-gray-50">홈</a>
+                <a href="#company" class="mobile-link py-2 border-b border-gray-50">회사소개</a>
+                <a href="#product" class="mobile-link py-2 border-b border-gray-50">제품소개</a>
+                <a href="#demo" class="mobile-link py-2 border-b border-gray-50">데모다운로드</a>
+                <a href="#remote-support" class="mobile-link py-2 border-b border-gray-50">원격지원</a>
+                <a href="#location" class="mobile-link py-2">오시는길</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- [1] 메인 (Hero) -->
+    <section id="hero" class="snap-page bg-navy-900 text-white relative flex flex-col overflow-hidden">
+        <div id="particles-js" class="absolute inset-0 z-0 opacity-50"></div>
+        <div class="absolute inset-0 bg-grid-pattern z-0 opacity-20"></div>
+        <div class="flex-1 flex flex-col items-center justify-center text-center px-4 relative z-10">
+            <span data-aos="fade-up" class="text-point-500 font-bold tracking-widest text-xs md:text-sm mb-4 block uppercase">THE BEST BUSINESS SOLUTION PROVIDER</span>
+            <h1 data-aos="fade-up" data-aos-delay="100" class="text-3xl md:text-7xl font-black leading-tight mb-6">
+                고객과 함께하는 파트너<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-teal-200">신뢰받는 기업 (주)비엠와이즈</span>
+            </h1>
+            <p data-aos="fade-up" data-aos-delay="200" class="text-sm md:text-2xl text-navy-100 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+                복지용구 시스템 및 재무/회계 관리업무 솔루션의 정석.<br class="hidden md:block">
+                경험과 기술을 겸비한 최적의 업무 전산화를 경험해 보세요.
+            </p>
+            <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col sm:flex-row gap-4">
+                <a href="https://www.bmwise.co.kr/help/BMWISE_SETUP.EXE" class="bg-white text-navy-800 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition shadow-xl group flex items-center gap-2">
+                    <i data-lucide="download" class="group-hover:animate-bounce"></i> 복지용구 데모
+                </a>
+                <a href="#remote-support" class="bg-navy-800 border border-navy-500 text-white px-8 py-4 rounded-lg font-bold hover:bg-navy-700 transition shadow-xl flex items-center gap-2">
+                    <i data-lucide="headset" class="group-hover:rotate-12 transition-transform"></i> 고객 원격지원
+                </a>
+            </div>
+        </div>
+        <div class="info-footer-bar bg-navy-900/80 border-white/10">
+            <p class="text-[10px] md:text-sm text-navy-200 font-medium opacity-80 px-4">서울 금천구 가산디지털1로 5, 2004호 (대륭테크노타운 20차) | 대표: 02-831-4177 | 재무: 070-4896-1672</p>
+        </div>
+    </section>
+
+    <!-- [2] 회사 소개 (수정: 카드들이 길게 늘어지지 않도록 조정) -->
+    <section id="company" class="snap-page bg-white flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto px-4 w-full py-4 overflow-hidden">
+            <div class="text-center mb-6 md:mb-10 shrink-0" data-aos="fade-up">
+                <h2 class="text-2xl lg:text-4xl font-bold text-navy-800 mb-2 uppercase relative inline-block">
+                    Business Solutions
+                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-point-500"></div>
+                </h2>
+                <p class="text-gray-600 mt-4 text-xs md:text-lg">비엠와이즈의 4대 핵심 역량을 소개합니다.</p>
+            </div>
+            <!-- flex-1을 제거하여 카드가 세로로 꽉 차지 않고 내용만큼만 높이를 가지게 함 -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 w-full max-w-6xl mx-auto">
+                <div data-aos="fade-up" data-aos-delay="0" class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-2 hover:shadow-xl transition duration-300 overflow-hidden group">
+                    <div class="h-28 md:h-40 overflow-hidden relative">
+                        <img src="images/solution_system.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=600'">
+                    </div>
+                    <div class="p-4 md:p-6 text-left border-t border-gray-50 h-full">
+                        <h3 class="text-sm md:text-lg font-bold text-navy-800 mb-2 flex items-center gap-2">
+                            <div class="p-1 bg-navy-50 rounded text-point-500"><i data-lucide="heart-handshake" class="w-4 h-4"></i></div>
+                            복지용구 시스템
+                        </h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 leading-relaxed italic">계약등록부터 청구검증까지 수년간 검증된 관리 프로그램</p>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-2 hover:shadow-xl transition duration-300 overflow-hidden group">
+                    <div class="h-28 md:h-40 overflow-hidden relative">
+                        <img src="images/solution_finance.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600'">
+                    </div>
+                    <div class="p-4 md:p-6 text-left border-t border-gray-50 h-full">
+                        <h3 class="text-sm md:text-lg font-bold text-navy-800 mb-2 flex items-center gap-2">
+                            <div class="p-1 bg-navy-50 rounded text-point-500"><i data-lucide="calculator" class="w-4 h-4"></i></div>
+                            재무/회계 관리
+                        </h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 leading-relaxed italic">전문적인 지자체 재무/회계 서비스에 대한 완벽 이해 지원</p>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-2 hover:shadow-xl transition duration-300 overflow-hidden group">
+                    <div class="h-28 md:h-40 overflow-hidden relative">
+                        <img src="images/solution_it.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=600'">
+                    </div>
+                    <div class="p-4 md:p-6 text-left border-t border-gray-50 h-full">
+                        <h3 class="text-sm md:text-lg font-bold text-navy-800 mb-2 flex items-center gap-2">
+                            <div class="p-1 bg-navy-50 rounded text-point-500"><i data-lucide="settings" class="w-4 h-4"></i></div>
+                            유지보수 및 SI
+                        </h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 leading-relaxed italic">고객사의 요구사항에 맞춘 프로그램 개발 및 기술 지원</p>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-white rounded-2xl shadow-sm border border-gray-100 hover:-translate-y-2 hover:shadow-xl transition duration-300 overflow-hidden group">
+                    <div class="h-28 md:h-40 overflow-hidden relative">
+                        <img src="images/solution_consulting.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" onerror="this.src='https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=600'">
+                    </div>
+                    <div class="p-4 md:p-6 text-left border-t border-gray-50 h-full">
+                        <h3 class="text-sm md:text-lg font-bold text-navy-800 mb-2 flex items-center gap-2">
+                            <div class="p-1 bg-navy-50 rounded text-point-500"><i data-lucide="users" class="w-4 h-4"></i></div>
+                            맞춤 컨설팅
+                        </h3>
+                        <p class="text-[10px] md:text-xs text-gray-500 leading-relaxed italic">다년간 노하우로 경영 업무 만족도 100%를 위한 컨설팅</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info-footer-bar">
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4">서울 금천구 가산디지털1로 5, 2004호 | 대표: 02-831-4177 | 재무: 070-4896-1672</p>
+        </div>
+    </section>
+
+    <!-- [3] 제품 소개 -->
+    <section id="product" class="snap-page bg-navy-50 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto px-4 w-full py-4 overflow-hidden">
+            <div class="text-center mb-4 shrink-0" data-aos="fade-up">
+                <h2 class="text-2xl lg:text-4xl font-bold text-navy-800 mb-1 lg:mb-2 uppercase relative inline-block">
+                    Product
+                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-point-500"></div>
+                </h2>
+                <p class="text-navy-800 font-bold text-sm md:text-lg mt-3">500여 업체가 신뢰하는 복지용구 전용 관리 프로그램</p>
+            </div>
+            
+            <div class="bg-white p-4 md:p-8 rounded-[2rem] shadow-xl border border-gray-100 flex flex-col w-full min-h-0" data-aos="fade-up">
+                <div class="grid grid-cols-4 md:grid-cols-6 gap-2 md:gap-3 mb-4 lg:mb-6 shrink-0">
+                    <button data-menu="고객관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="users" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">고객관리</span>
+                    </button>
+                    <button data-menu="판매대여관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="shopping-cart" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">판매대여</span>
+                    </button>
+                    <button data-menu="출고회수관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="truck" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">출고회수</span>
+                    </button>
+                    <button data-menu="급여관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="coins" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">급여관리</span>
+                    </button>
+                    <button data-menu="입금관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="wallet" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">입금관리</span>
+                    </button>
+                    <button data-menu="출력관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="printer" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">출력관리</span>
+                    </button>
+                    <button data-menu="재고관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="archive" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">재고관리</span>
+                    </button>
+                    <button data-menu="자산관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="building-2" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">자산관리</span>
+                    </button>
+                    <button data-menu="상품관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="tags" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">상품관리</span>
+                    </button>
+                    <button data-menu="거래처관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="briefcase" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[14px] font-black">거래처관리</span>
+                    </button>
+                    <button data-menu="시스템관리" class="menu-btn py-2 md:py-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-1 group shadow-sm">
+                        <i data-lucide="settings" class="w-5 h-5 md:w-8 md:h-8 text-point-500 menu-icon-move"></i>
+                        <span class="text-[10px] md:text-[13px] font-black">시스템관리</span>
+                    </button>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-3 md:p-5 border border-gray-200 flex-shrink-0 fixed-detail-box overflow-y-auto">
+                    <div id="sub-list" class="flex flex-wrap gap-1.5 md:gap-2 justify-center content-center h-full"></div>
+                </div>
+            </div>
+        </div>
+        <div class="info-footer-bar bg-white border-gray-100">
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4">서울 금천구 가산디지털1로 5, 2004호 | 대표: 02-831-4177 | 재무: 070-4896-1672</p>
+        </div>
+    </section>
+
+    <!-- [4] 데모 다운로드 -->
+    <section id="demo" class="snap-page bg-white flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto px-4 w-full">
+            <div data-aos="zoom-in" class="bg-navy-50 py-12 md:py-16 px-6 md:px-12 rounded-[3rem] shadow-inner border border-gray-100 w-full text-center">
+                <i data-lucide="download-cloud" class="w-16 h-16 md:w-28 md:h-28 text-navy-800 mx-auto mb-6 md:mb-10"></i>
+                <h2 class="text-2xl md:text-6xl font-black text-navy-800 mb-4 md:mb-8 uppercase tracking-tighter">Demo Download</h2>
+                <p class="text-gray-500 text-xs md:text-xl mb-8 md:mb-14 font-light leading-relaxed">
+                    (주)비엠와이즈의 복지용구 시스템 데모 버전을 직접 설치하고 체험해 보세요.
+                </p>
+                <a href="https://www.bmwise.co.kr/help/BMWISE_SETUP.EXE" class="inline-flex items-center gap-3 md:gap-5 bg-point-500 text-white px-8 md:px-14 py-4 md:py-6 rounded-full font-black text-lg md:text-3xl hover:bg-point-600 transition shadow-xl hover:-translate-y-1">
+                    <i data-lucide="download"></i> 프로그램(DEMO) 다운로드
+                </a>
+            </div>
+        </div>
+        <div class="info-footer-bar">
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4">서울 금천구 가산디지털1로 5, 2004호 | 대표: 02-831-4177 | 재무: 070-4896-1672</p>
+        </div>
+    </section>
+
+    <!-- [5] 원격 지원 -->
+    <section id="remote-support" class="snap-page bg-gray-50 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto px-4 w-full py-4 overflow-hidden">
+            <div class="bg-navy-800 rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row w-full max-h-[600px]" data-aos="fade-up">
+                <div class="md:w-1/2 p-8 md:p-16 text-white flex flex-col justify-center bg-navy-800 relative">
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+                    <h2 class="text-2xl md:text-5xl font-black mb-6 md:mb-10 flex items-center gap-3 relative z-10">
+                        <i data-lucide="headset" class="w-8 h-8 md:w-14 md:h-14 text-point-500"></i> 원격지원 센터
+                    </h2>
+                    <p class="text-navy-200 text-xs md:text-xl mb-6 md:mb-12 font-light relative z-10 italic">신속하고 정확하게 고객님의 문제를 해결해 드립니다.</p>
+                    <div class="space-y-4 md:space-y-8 relative z-10">
+                        <div class="flex items-center gap-3 md:gap-5">
+                            <span class="w-6 h-6 md:w-10 md:h-10 rounded-full bg-point-500 flex items-center justify-center font-black text-white shrink-0 text-xs md:text-lg">1</span>
+                            <p class="text-xs md:text-xl font-bold">대표전화 연결 (02-831-4177)</p>
+                        </div>
+                        <div class="flex items-center gap-3 md:gap-5">
+                            <span class="w-6 h-6 md:w-10 md:h-10 rounded-full bg-point-500 flex items-center justify-center font-black text-white shrink-0 text-xs md:text-lg">2</span>
+                            <p class="text-xs md:text-xl font-bold">상담원 안내에 따라 아래 버튼 클릭</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 bg-white p-6 md:p-16 flex flex-col justify-center gap-4 md:gap-8">
+                    <a href="https://bmwise.co.kr/help/bmwise-1.exe" class="w-full py-6 md:py-14 border-2 md:border-4 border-navy-800 rounded-3xl text-navy-800 font-black text-lg md:text-4xl hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-2 group shadow-sm">
+                        <i data-lucide="monitor-down" class="w-8 h-8 md:w-16 md:h-16 text-point-500 group-hover:scale-110 transition"></i>
+                        1번 원격연결
+                    </a>
+                    <a href="https://bmwise.co.kr/help/bmwise-2.exe" class="w-full py-6 md:py-14 border-2 md:border-4 border-navy-800 rounded-3xl text-navy-800 font-black text-lg md:text-4xl hover:bg-navy-800 hover:text-white transition flex flex-col items-center justify-center gap-2 group shadow-sm">
+                        <i data-lucide="monitor-down" class="w-8 h-8 md:w-16 md:h-16 text-point-500 group-hover:scale-110 transition"></i>
+                        2번 원격연결
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="info-footer-bar">
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4">서울 금천구 가산디지털1로 5, 2004호 | 대표: 02-831-4177 | 재무: 070-4896-1672</p>
+        </div>
+    </section>
+
+    <!-- [6] 오시는 길 -->
+    <section id="location" class="snap-page bg-white flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto px-4 w-full py-4 overflow-hidden">
+            <div class="text-center mb-6 shrink-0" data-aos="fade-up">
+                <h2 class="text-2xl md:text-4xl lg:text-5xl font-black text-navy-800 mb-2 uppercase relative inline-block">
+                    Location
+                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-point-500"></div>
+                </h2>
+                <p class="text-gray-600 mt-4 text-xs md:text-lg">비엠와이즈 오시는 길</p>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col md:flex-row w-full flex-1 min-h-0" data-aos="fade-up">
+                <div class="h-44 md:h-auto md:w-3/5 border-b md:border-b-0 md:border-r border-gray-100 relative">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3166.166316263884!2d126.8845!3d37.4686!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9e2b102b4d3b%3A0x6b093282eb1119b4!2z64yA66Wt7YWM7YGs64W47YOA7Jq0MjDssKg!5e0!3m2!1sko!2skr!4v1710000000000" class="absolute inset-0 w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="p-6 md:p-12 lg:p-16 bg-gray-50 flex flex-col justify-center space-y-6 md:space-y-12 md:w-2/5">
+                    <div class="border-b border-gray-200 pb-4">
+                        <h4 class="text-navy-800 font-black text-base md:text-2xl mb-2 flex items-center gap-3">
+                            <i data-lucide="map-pin" class="text-point-500 w-5 h-5 md:w-8 md:h-8"></i> 회사 주소
+                        </h4>
+                        <p class="text-gray-600 text-xs md:text-xl font-medium leading-relaxed">
+                            서울시 금천구 가산디지털1로 5,<br>
+                            2004호 (가산동, 대륭테크노타운 20차)
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-navy-800 font-black text-base md:text-2xl mb-2 flex items-center gap-3">
+                            <i data-lucide="train" class="text-point-500 w-5 h-5 md:w-8 md:h-8"></i> 전철 이용
+                        </h4>
+                        <p class="text-gray-600 text-xs md:text-xl font-medium leading-relaxed">
+                            <span class="text-navy-800 font-black">1호선 독산역 2번 출구</span><br>
+                            도보 약 3분 거리 (200m)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="bg-navy-900 text-white/50 py-6 md:py-8 pb-20 md:pb-8 text-center text-[10px] md:text-sm shrink-0">
+            <p class="mb-1 text-navy-200 px-4">서울 금천구 가산디지털1로 5, 2004호 (대륭테크노타운 20차)</p>
+            <p class="opacity-30 tracking-widest uppercase text-[8px] md:text-xs">Copyright © BMWISE CO., LTD. ALL RIGHTS RESERVED.</p>
+        </footer>
+    </section>
+
+    <!-- 모바일 전용 하단 바 (항상 노출) -->
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 text-center py-2.5 z-50 md:hidden shadow-xl">
+        <p class="text-[11px] text-gray-600 font-medium">
+            대표전화: <span class="font-bold text-navy-800">02-831-4177</span> &nbsp;|&nbsp; 재무: <span class="font-bold text-navy-800">070-4896-1672</span>
+        </p>
+    </div>
+
+    <!-- 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            AOS.init({ duration: 800, once: true });
+            
+            // [개선된 모바일 메뉴 로직]
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (menuBtn && mobileMenu) {
+                let isOpen = false;
+                menuBtn.addEventListener('click', () => {
+                    isOpen = !isOpen;
+                    mobileMenu.classList.toggle('active', isOpen);
+                    menuBtn.classList.toggle('is-active', isOpen);
+                    // 아이콘 교체
+                    menuBtn.innerHTML = isOpen 
+                        ? '<i data-lucide="x" class="w-7 h-7"></i>' 
+                        : '<i data-lucide="menu" class="w-7 h-7"></i>';
+                    lucide.createIcons();
+                });
+                
+                document.querySelectorAll('.mobile-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        isOpen = false;
+                        mobileMenu.classList.remove('active');
+                        menuBtn.classList.remove('is-active');
+                        menuBtn.innerHTML = '<i data-lucide="menu" class="w-7 h-7"></i>';
+                        lucide.createIcons();
+                    });
+                });
+            }
+
+            // 파티클 배경 효과
+            if(window.innerWidth > 1024 && document.getElementById('particles-js')) {
+                particlesJS("particles-js", { "particles": { "number": { "value": 35 }, "color": { "value": "#ffffff" }, "opacity": { "value": 0.3 }, "size": { "value": 2 }, "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.15, "width": 1 }, "move": { "enable": true, "speed": 1.2 } } });
+            }
+
+            // 제품소개 상세 데이터
+            const menuData = {
+                "고객관리": ["오늘할일", "고객정보", "고객등록", "고객일괄등록", "유효기간연장", "욕구사정기록", "고객입금등록", "고객미입금관리", "AS상담일지", "알림관리"],
+                "판매대여관리": ["판매등록", "판매집계", "대여등록", "대여집계", "판매대여내역", "집계표"],
+                "출고회수관리": ["출고등록", "출고내역", "회수등록", "재계약등록", "회수내역", "배송일정현황", "배송일정관리"],
+                "급여관리": ["청구등록-판매", "청구등록-대여", "청구내역", "청구집계", "공단집계검증", "공단에러수정", "공단등록처리", "공단청구수정", "공단청구수정내역", "급여입금집계", "청구통계"],
+                "입금관리": ["CMS고객관리", "CMS입금관리"],
+                "출력관리": ["이용신청서", "이용내역서", "급여비용명세서", "본인부담금수납대장", "제품관리대장", "상담관리대장", "민원관리대장", "복지용구수급자현황", "복지용구수급자현황(급여)", "제품설치대장", "소독일지", "소독일지(자체소독)", "차량소독일지", "장기요양급여제공기록지", "납부확인서", "문자메세지"],
+                "재고관리": ["발주등록", "입고등록", "재고현황", "재고조정", "실사준비작업", "실사재고등록"],
+                "자산관리": ["자산등록", "소독출고", "소독입고", "자체소독", "차량소독", "공단소독읽기", "자산내역", "자산집계"],
+                "상품관리": ["상품등록", "상품수가변경", "상품분류설정", "상품분류", "기초상품등록"],
+                "거래처관리": ["거래처등록", "거래처원장", "매입부가세", "매출부가세", "기관등록", "거래처일괄등록"],
+                "시스템관리": ["공지사항", "자주하는질문", "사용권한등록", "사용자등록", "은행등록", "카드등록", "환경설정", "지점등록", "회사정보"]
+            };
+
+            const menuBtns = document.querySelectorAll('.menu-btn');
+            const subList = document.getElementById('sub-list');
+
+            function updateMenu(menuName) {
+                subList.innerHTML = '';
+                if(menuData[menuName]) {
+                    menuData[menuName].forEach(item => {
+                        const span = document.createElement('span');
+                        span.className = 'px-3 py-1 bg-white border border-gray-200 text-navy-800 text-[10px] md:text-[13px] font-bold rounded-lg shadow-sm hover:border-point-500 transition cursor-default';
+                        span.innerHTML = `<span class="text-point-500 mr-1.5 font-black">▷</span>${item}`;
+                        subList.appendChild(span);
+                    });
+                }
+                
+                menuBtns.forEach(btn => {
+                    const icon = btn.querySelector('svg') || btn.querySelector('.menu-icon-move');
+                    if(btn.dataset.menu === menuName) {
+                        btn.classList.add('bg-navy-800', 'text-white', 'border-navy-800', 'scale-105', 'shadow-lg', 'z-10');
+                        btn.classList.remove('bg-gray-50');
+                        if (icon) icon.style.color = '#f59e0b';
+                    } else {
+                        btn.classList.remove('bg-navy-800', 'text-white', 'border-navy-800', 'scale-105', 'shadow-lg', 'z-10');
+                        btn.classList.add('bg-gray-50');
+                        if (icon) icon.style.color = '#334e68';
+                    }
+                });
+            }
+
+            menuBtns.forEach(btn => {
+                btn.addEventListener('click', () => updateMenu(btn.dataset.menu));
+                btn.addEventListener('mouseenter', () => updateMenu(btn.dataset.menu));
+            });
+
+            updateMenu('고객관리');
+        });
+    </script>
+</body>
+</html>
