@@ -47,16 +47,17 @@
             }
         }
 
-        /* 모바일 대응 - 상단 정렬 최적화 */
+        /* 모바일 대응 - 화면 이탈 방지 및 상단 정렬 */
         @media (max-width: 1024px) {
             html { scroll-snap-type: none; }
             .snap-page { 
-                height: auto; 
-                min-height: 100vh; 
-                padding-top: 5rem; /* 헤더 여백 충분히 확보 */
+                height: 100dvh; /* 브라우저 UI 포함 동적 높이 대응 */
+                width: 100%;
+                padding-top: 4.5rem; 
                 display: flex; 
                 flex-direction: column;
-                justify-content: flex-start !important; /* 상단 정렬 강제 */
+                justify-content: flex-start !important;
+                overflow: hidden; /* 모바일에서 섹션 내 스크롤 발생 방지 */
             }
         }
 
@@ -88,7 +89,7 @@
         .info-footer-bar {
             background-color: #f3f4f6;
             border-top: 1px solid #e5e7eb;
-            padding: 0.7rem 0;
+            padding: 0.5rem 0;
             text-align: center;
             width: 100%;
             flex-shrink: 0;
@@ -220,143 +221,150 @@
         </div>
     </section>
 
-    <!-- [2] 서비스 소개 (상단 정렬 및 빈공간 최적화) -->
+    <!-- [2] 서비스 소개 (상단 정렬 및 모바일 2x2 배치 최적화) -->
     <section id="service" class="snap-page bg-white flex flex-col overflow-hidden">
-        <div class="flex-1 flex flex-col items-center justify-start max-w-7xl mx-auto px-4 w-full py-10 md:py-20 overflow-hidden">
-            <div class="text-center mb-8 md:mb-16 shrink-0" data-aos="fade-up">
-                <h2 class="text-2xl lg:text-4xl font-black text-eumn-900 mb-2 uppercase relative inline-block">Service Introduction
-                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-eumn-500"></div>
+        <div class="flex-1 flex flex-col items-center justify-start max-w-7xl mx-auto px-4 w-full py-6 md:py-20 overflow-hidden">
+            <div class="text-center mb-6 md:mb-16 shrink-0" data-aos="fade-up">
+                <h2 class="text-xl lg:text-4xl font-black text-eumn-900 mb-1 uppercase relative inline-block">Service Introduction
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-eumn-500"></div>
                 </h2>
-                <p class="text-gray-500 mt-4 text-sm md:text-lg font-medium tracking-tight">복지용구 재무/회계 전용 시스템 '이음엔'을 소개합니다.</p>
+                <p class="text-gray-500 mt-2 text-xs md:text-lg font-medium tracking-tight">복지용구 재무/회계 전용 시스템 '이음엔'을 소개합니다.</p>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-full items-stretch px-4 max-w-6xl">
-                <div data-aos="fade-up" class="bg-white rounded-3xl shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition duration-300">
-                    <div class="h-40 md:h-48 service-icon-box rounded-t-3xl"><i data-lucide="shield-check" class="w-16 h-16 text-eumn-500"></i></div>
-                    <div class="p-6 text-left flex-grow border-t border-gray-50">
-                        <h3 class="text-base md:text-xl font-bold text-eumn-900 mb-2">규정 기반 회계 처리</h3>
-                        <p class="text-xs md:text-sm text-gray-500 font-medium leading-relaxed">장기요양기관 재무회계규칙에 근거한 투명한 회계 서비스</p>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8 w-full items-stretch px-2 max-w-6xl">
+                <div data-aos="fade-up" class="bg-white rounded-2xl shadow-md border border-gray-100 flex flex-col hover:-translate-y-1 transition duration-300">
+                    <div class="h-24 md:h-48 service-icon-box rounded-t-2xl"><i data-lucide="shield-check" class="w-10 h-10 md:w-16 md:h-16 text-eumn-500"></i></div>
+                    <div class="p-3 md:p-6 text-left flex-grow border-t border-gray-50">
+                        <h3 class="text-xs md:text-xl font-bold text-eumn-900 mb-1">규정 회계 처리</h3>
+                        <p class="text-[10px] md:text-sm text-gray-500 font-medium leading-tight md:leading-relaxed">재무회계규칙 기반 투명한 관리 서비스</p>
                     </div>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="100" class="bg-white rounded-3xl shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition duration-300">
-                    <div class="h-40 md:h-48 service-icon-box rounded-t-3xl"><i data-lucide="pie-chart" class="w-16 h-16 text-eumn-500"></i></div>
-                    <div class="p-6 text-left border-t border-gray-50">
-                        <h3 class="text-base md:text-xl font-bold text-eumn-900 mb-2">예결산 작성/입력</h3>
-                        <p class="text-xs md:text-sm text-gray-500 font-medium leading-relaxed">안정적 운영을 지원하는 전문적인 예결산 대행</p>
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-white rounded-2xl shadow-md border border-gray-100 flex flex-col hover:-translate-y-1 transition duration-300">
+                    <div class="h-24 md:h-48 service-icon-box rounded-t-2xl"><i data-lucide="pie-chart" class="w-10 h-10 md:w-16 md:h-16 text-eumn-500"></i></div>
+                    <div class="p-3 md:p-6 text-left flex-grow border-t border-gray-50">
+                        <h3 class="text-xs md:text-xl font-bold text-eumn-900 mb-1">예결산 작성</h3>
+                        <p class="text-[10px] md:text-sm text-gray-500 font-medium leading-tight md:leading-relaxed">안정적 운영을 돕는 예산 편성/결산 대행</p>
                     </div>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="200" class="bg-white rounded-3xl shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition duration-300">
-                    <div class="h-40 md:h-48 service-icon-box rounded-t-3xl"><i data-lucide="book-open-check" class="w-16 h-16 text-eumn-500"></i></div>
-                    <div class="p-6 text-left border-t border-gray-50">
-                        <h3 class="text-base md:text-xl font-bold text-eumn-900 mb-2">원장 및 현금 관리</h3>
-                        <p class="text-xs md:text-sm text-gray-500 font-medium leading-relaxed">수입지출부터 총계정원장까지 철저한 관리</p>
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-white rounded-2xl shadow-md border border-gray-100 flex flex-col hover:-translate-y-1 transition duration-300">
+                    <div class="h-24 md:h-48 service-icon-box rounded-t-2xl"><i data-lucide="book-open-check" class="w-10 h-10 md:w-16 md:h-16 text-eumn-500"></i></div>
+                    <div class="p-3 md:p-6 text-left flex-grow border-t border-gray-50">
+                        <h3 class="text-xs md:text-xl font-bold text-eumn-900 mb-1">원장 관리</h3>
+                        <p class="text-[10px] md:text-sm text-gray-500 font-medium leading-tight md:leading-relaxed">수입지출부터 총계정원장까지 철저한 관리</p>
                     </div>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="300" class="bg-white rounded-3xl shadow-lg border border-gray-100 flex flex-col hover:-translate-y-2 transition duration-300">
-                    <div class="h-40 md:h-48 service-icon-box rounded-t-3xl"><i data-lucide="monitor" class="w-16 h-16 text-eumn-500"></i></div>
-                    <div class="p-6 text-left border-t border-gray-50">
-                        <h3 class="text-base md:text-xl font-bold text-eumn-900 mb-2">희망이음 회계 입력</h3>
-                        <p class="text-xs md:text-sm text-gray-500 font-medium leading-relaxed">시설정보시스템 회계 데이터를 정확하게 대행 입력</p>
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-white rounded-2xl shadow-md border border-gray-100 flex flex-col hover:-translate-y-1 transition duration-300">
+                    <div class="h-24 md:h-48 service-icon-box rounded-t-2xl"><i data-lucide="monitor" class="w-10 h-10 md:w-16 md:h-16 text-eumn-500"></i></div>
+                    <div class="p-3 md:p-6 text-left flex-grow border-t border-gray-50">
+                        <h3 class="text-xs md:text-xl font-bold text-eumn-900 mb-1">희망이음 입력</h3>
+                        <p class="text-[10px] md:text-sm text-gray-500 font-medium leading-tight md:leading-relaxed">시설정보시스템 회계 데이터 정확한 대행</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="info-footer-bar">
-            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4 tracking-tight">서울 금천구 가산디지털1로 5 | 02-831-4177</p>
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4">서울 금천구 가산디지털1로 5 | 02-831-4177</p>
         </div>
     </section>
 
-    <!-- [3] 서비스 특징 (상단 정렬 및 빈공간 최적화) -->
+    <!-- [3] 서비스 특징 (상단 정렬 및 모바일 가로 슬림형 카드) -->
     <section id="features" class="snap-page bg-eumn-50 flex flex-col overflow-hidden">
-        <div class="flex-1 flex flex-col items-center justify-start max-w-7xl mx-auto px-4 w-full py-10 md:py-20 overflow-hidden">
-            <div class="text-center mb-8 md:mb-16 shrink-0" data-aos="fade-up">
-                <h2 class="text-2xl lg:text-4xl font-black text-eumn-900 mb-2 uppercase relative inline-block">Service Features
-                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-eumn-500"></div>
+        <div class="flex-1 flex flex-col items-center justify-start max-w-7xl mx-auto px-4 w-full py-6 md:py-20 overflow-hidden">
+            <div class="text-center mb-6 md:mb-16 shrink-0" data-aos="fade-up">
+                <h2 class="text-xl lg:text-4xl font-black text-eumn-900 mb-1 uppercase relative inline-block">Service Features
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-eumn-500"></div>
                 </h2>
-                <p class="text-eumn-800 font-bold text-sm md:text-xl mt-4 leading-relaxed max-w-4xl mx-auto px-4">특화된 데이터 분석 툴을 통해 정확하고 일관성 있는 재무/회계 서비스를 구축하였습니다.</p>
+                <p class="text-eumn-800 font-bold text-[11px] md:text-xl mt-3 leading-relaxed max-w-4xl mx-auto px-4">특화된 데이터 분석 툴을 통해 정확하고 일관성 있는 서비스를 구축하였습니다.</p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 w-full px-4 max-w-6xl">
-                <div data-aos="fade-up" class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-eumn-100 text-center hover:bg-eumn-900 transition-all duration-500 group">
-                    <div class="w-16 h-16 md:w-24 md:h-24 bg-eumn-50 rounded-3xl flex items-center justify-center mb-6 md:mb-8 mx-auto group-hover:bg-eumn-800 transition-colors"><i data-lucide="cpu" class="w-10 h-10 md:w-14 md:h-14 text-eumn-500 group-hover:text-eumn-100"></i></div>
-                    <h3 class="text-lg md:text-2xl font-black text-eumn-900 mb-4 group-hover:text-white">AI 분석 리포트</h3>
-                    <p class="text-sm md:text-base text-gray-500 leading-relaxed group-hover:text-eumn-100">분기별 결산 결과 리포트와 정밀 분석 보고서를 AI 기술 기반으로 제공합니다.</p>
+            <div class="flex flex-col md:grid md:grid-cols-3 gap-3 md:gap-10 w-full px-2 max-w-6xl">
+                <!-- 모바일 가로형 배치를 유도하는 슬림 카드 -->
+                <div data-aos="fade-up" class="bg-white p-4 md:p-12 rounded-2xl md:rounded-[2.5rem] shadow-md border border-eumn-100 flex flex-row md:flex-col items-center gap-4 md:gap-0 hover:bg-eumn-900 transition-all duration-500 group">
+                    <div class="w-12 h-12 md:w-24 md:h-24 bg-eumn-50 rounded-xl md:rounded-3xl flex items-center justify-center md:mb-8 shrink-0 group-hover:bg-eumn-800 transition-colors"><i data-lucide="cpu" class="w-6 h-6 md:w-14 md:h-14 text-eumn-500 group-hover:text-eumn-100"></i></div>
+                    <div class="text-left md:text-center">
+                        <h3 class="text-sm md:text-2xl font-black text-eumn-900 mb-1 md:mb-4 group-hover:text-white">AI 분석 리포트</h3>
+                        <p class="text-[10px] md:text-base text-gray-500 leading-tight md:leading-relaxed group-hover:text-eumn-100">분기별 결산 결과 리포트와 정밀 분석 보고서를 제공합니다.</p>
+                    </div>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="100" class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-eumn-100 text-center hover:bg-eumn-900 transition-all duration-500 group">
-                    <div class="w-16 h-16 md:w-24 md:h-24 bg-eumn-50 rounded-3xl flex items-center justify-center mb-6 md:mb-8 mx-auto group-hover:bg-eumn-800 transition-colors"><i data-lucide="fingerprint" class="w-10 h-10 md:w-14 md:h-14 text-eumn-500 group-hover:text-eumn-100"></i></div>
-                    <h3 class="text-lg md:text-2xl font-black text-eumn-900 mb-4 group-hover:text-white">결의서 패턴 관리</h3>
-                    <p class="text-sm md:text-base text-gray-500 leading-relaxed group-hover:text-eumn-100">회원사별 등록 패턴 인식을 통해 일관성 있고 편리한 데이터 관리를 지원합니다.</p>
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-white p-4 md:p-12 rounded-2xl md:rounded-[2.5rem] shadow-md border border-eumn-100 flex flex-row md:flex-col items-center gap-4 md:gap-0 hover:bg-eumn-900 transition-all duration-500 group">
+                    <div class="w-12 h-12 md:w-24 md:h-24 bg-eumn-50 rounded-xl md:rounded-3xl flex items-center justify-center md:mb-8 shrink-0 group-hover:bg-eumn-800 transition-colors"><i data-lucide="fingerprint" class="w-6 h-6 md:w-14 md:h-14 text-eumn-500 group-hover:text-eumn-100"></i></div>
+                    <div class="text-left md:text-center">
+                        <h3 class="text-sm md:text-2xl font-black text-eumn-900 mb-1 md:mb-4 group-hover:text-white">결의서 패턴 관리</h3>
+                        <p class="text-[10px] md:text-base text-gray-500 leading-tight md:leading-relaxed group-hover:text-eumn-100">등록 패턴 인식을 통해 일관성 있는 데이터 관리를 지원합니다.</p>
+                    </div>
                 </div>
-                <div data-aos="fade-up" data-aos-delay="200" class="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-eumn-100 text-center hover:bg-eumn-900 transition-all duration-500 group">
-                    <div class="w-16 h-16 md:w-24 md:h-24 bg-eumn-50 rounded-3xl flex items-center justify-center mb-6 md:mb-8 mx-auto group-hover:bg-eumn-800 transition-colors"><i data-lucide="wand-2" class="w-10 h-10 md:w-14 md:h-14 text-eumn-500 group-hover:text-eumn-100"></i></div>
-                    <h3 class="text-lg md:text-2xl font-black text-eumn-900 mb-4 group-hover:text-white">예산 자동 산출</h3>
-                    <p class="text-sm md:text-base text-gray-500 leading-relaxed group-hover:text-eumn-100">전년도 예산과 당해 매출을 연계 분석하여 실효적인 예산을 자동으로 산출합니다.</p>
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-white p-4 md:p-12 rounded-2xl md:rounded-[2.5rem] shadow-md border border-eumn-100 flex flex-row md:flex-col items-center gap-4 md:gap-0 hover:bg-eumn-900 transition-all duration-500 group">
+                    <div class="w-12 h-12 md:w-24 md:h-24 bg-eumn-50 rounded-xl md:rounded-3xl flex items-center justify-center md:mb-8 shrink-0 group-hover:bg-eumn-800 transition-colors"><i data-lucide="wand-2" class="w-6 h-6 md:w-14 md:h-14 text-eumn-500 group-hover:text-eumn-100"></i></div>
+                    <div class="text-left md:text-center">
+                        <h3 class="text-sm md:text-2xl font-black text-eumn-900 mb-1 md:mb-4 group-hover:text-white">예산 자동 산출</h3>
+                        <p class="text-[10px] md:text-base text-gray-500 leading-tight md:leading-relaxed group-hover:text-eumn-100">전년도 분석을 통해 실효적인 예산을 산출하여 등록합니다.</p>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="info-footer-bar bg-white">
-            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4 tracking-tight">이음엔 (EUMN) - 데이터 기술이 접목된 전문 회계 관리</p>
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4 tracking-tight italic">EUMN - Professional Finance Management</p>
         </div>
     </section>
 
     <!-- [4] 요금 안내 -->
     <section id="pricing" class="snap-page bg-white flex flex-col overflow-hidden">
-        <div class="flex-1 flex flex-col items-center justify-start max-w-7xl mx-auto px-4 w-full py-10 md:py-20 overflow-hidden">
+        <div class="flex-1 flex flex-col items-center justify-start max-w-7xl mx-auto px-4 w-full py-6 md:py-20 overflow-hidden">
             <div class="text-center mb-6 md:mb-10 shrink-0" data-aos="fade-up">
-                <h2 class="text-2xl lg:text-4xl font-black text-eumn-900 mb-1 uppercase relative inline-block">Pricing Calculator
-                    <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-12 h-1 bg-eumn-500"></div>
+                <h2 class="text-xl lg:text-4xl font-black text-eumn-900 mb-1 uppercase relative inline-block">Pricing Calculator
+                    <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-eumn-500"></div>
                 </h2>
                 <p class="text-eumn-700 mt-4 text-sm md:text-lg font-bold bg-eumn-50 px-6 py-2 rounded-full inline-block">이음엔 요금 계산기</p>
             </div>
             <div class="w-full max-w-2xl px-4 mx-auto" data-aos="fade-up">
-                <div class="bg-gray-50 rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-gray-100 flex flex-col relative overflow-hidden">
-                    <div class="space-y-8 relative z-10">
+                <div class="bg-gray-50 rounded-[2rem] p-6 md:p-12 shadow-2xl border border-gray-100 flex flex-col relative overflow-hidden">
+                    <div class="space-y-6 md:space-y-8 relative z-10">
                         <div>
-                            <label class="block text-sm md:text-base font-black text-gray-600 mb-2 flex items-center justify-between">
+                            <label class="block text-xs md:text-base font-black text-gray-600 mb-2 flex items-center justify-between">
                                 <span>월수가 청구총액</span>
-                                <span class="text-[10px] md:text-xs text-eumn-600 font-bold bg-white px-2 py-0.5 rounded-md border border-eumn-100">1년간 비용 변동 없음.</span>
+                                <span class="text-[9px] md:text-xs text-eumn-600 font-bold bg-white px-2 py-0.5 rounded-md border border-eumn-100">1년간 비용 변동 없음.</span>
                             </label>
                             <div class="relative group">
-                                <input type="text" id="amount-input" class="w-full p-4 md:p-6 bg-white border-2 border-gray-200 rounded-2xl font-black text-right text-xl md:text-4xl text-eumn-600 focus:border-eumn-500 outline-none transition-all" value="20,000,000">
-                                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 font-black text-2xl">₩</span>
+                                <input type="text" id="amount-input" class="w-full p-4 md:p-6 bg-white border-2 border-gray-200 rounded-2xl font-black text-right text-lg md:text-4xl text-eumn-600 focus:border-eumn-500 outline-none transition-all" value="20,000,000">
+                                <span class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 font-black text-xl">₩</span>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm md:text-base font-black text-gray-600 mb-2">장부제작 <span class="text-[10px] md:text-xs text-gray-400 font-medium ml-2">※ 분기별 제작/배부되며 비용도 분기별 부과</span></label>
-                            <select id="ledger-select" class="w-full p-4 md:p-6 bg-white border-2 border-gray-200 rounded-2xl font-bold text-gray-700 text-sm md:text-xl appearance-none cursor-pointer">
+                            <label class="block text-xs md:text-base font-black text-gray-600 mb-2">장부제작 <span class="text-[9px] md:text-xs text-gray-400 font-medium ml-2">※ 분기별 제작/배부 (비용 분기 부과)</span></label>
+                            <select id="ledger-select" class="w-full p-4 md:p-6 bg-white border-2 border-gray-200 rounded-2xl font-bold text-gray-700 text-xs md:text-xl appearance-none cursor-pointer">
                                 <option value="none">기본 전자장부 제공</option>
                                 <option value="apply">실물 장부 제작 신청</option>
                             </select>
                         </div>
                     </div>
-                    <div class="mt-10 pt-8 border-t-2 border-dashed border-gray-200 space-y-4">
-                        <div class="flex justify-between items-center text-gray-600"><span class="font-bold text-base md:text-xl">월 업무료 (추정)</span><span class="text-2xl md:text-4xl font-black text-eumn-900" id="monthly-fee">40,000원</span></div>
-                        <div class="flex justify-between items-center text-gray-600"><span class="font-bold text-base md:text-xl">장부제작 비용 (분기요금)</span><span class="text-2xl md:text-4xl font-black text-eumn-600" id="ledger-fee">0원</span></div>
+                    <div class="mt-8 pt-6 border-t-2 border-dashed border-gray-200 space-y-4">
+                        <div class="flex justify-between items-center text-gray-600"><span class="font-bold text-xs md:text-xl">월 업무료 (추정)</span><span class="text-lg md:text-4xl font-black text-eumn-900" id="monthly-fee">40,000원</span></div>
+                        <div class="flex justify-between items-center text-gray-600"><span class="font-bold text-xs md:text-xl">장부제작 비용 (분기요금)</span><span class="text-lg md:text-4xl font-black text-eumn-600" id="ledger-fee">0원</span></div>
                     </div>
-                    <div class="mt-8 bg-red-50/50 p-4 rounded-xl border border-red-100 flex items-start gap-2">
-                        <i data-lucide="info" class="text-red-500 shrink-0 mt-0.5 w-5 h-5"></i>
-                        <p class="text-xs md:text-sm text-red-600 font-bold">※ 예산, 결산: 월 업무료 1회 비용 추가 청구 (이용 시 적용)</p>
+                    <div class="mt-6 bg-red-50/50 p-3 rounded-xl border border-red-100 flex items-start gap-2">
+                        <i data-lucide="info" class="text-red-500 shrink-0 mt-0.5 w-4 h-4"></i>
+                        <p class="text-[9px] md:text-sm text-red-600 font-bold leading-relaxed">※ 예산, 결산: 월 업무료 1회 비용 추가 청구 (이용 시 적용)</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="info-footer-bar bg-white border-gray-100">
-            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4 tracking-tight">서울 금천구 가산디지털1로 5, 2004호 | 02-831-4177</p>
+            <p class="text-[10px] md:text-sm text-gray-500 font-medium px-4 tracking-tight">서울 금천구 가산디지털1로 5 | 02-831-4177</p>
         </div>
     </section>
 
     <!-- [5] 원격 지원 -->
     <section id="remote-support" class="snap-page bg-eumn-50 flex flex-col overflow-hidden">
-        <div class="flex-1 flex flex-col justify-start max-w-7xl mx-auto px-4 w-full py-10 md:py-20 overflow-hidden">
-            <div class="bg-eumn-900 rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row w-full max-h-[700px]" data-aos="fade-up">
+        <div class="flex-1 flex flex-col justify-start max-w-7xl mx-auto px-4 w-full py-8 md:py-20 overflow-hidden">
+            <div class="bg-eumn-900 rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row w-full max-h-[600px]" data-aos="fade-up">
                 <div class="p-8 md:p-20 text-white flex flex-col justify-center bg-eumn-900 border-b md:border-b-0 md:border-r border-white/5 relative">
                     <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <h2 class="text-2xl md:text-6xl font-black mb-4 flex items-center gap-4 relative z-10"><i data-lucide="headset" class="text-eumn-200"></i> 원격지원</h2>
-                    <p class="text-eumn-100 text-sm md:text-2xl font-light italic mb-8 opacity-80 relative z-10">이음엔 전문가가 바로 해결해 드립니다.</p>
+                    <h2 class="text-2xl md:text-6xl font-black mb-2 flex items-center gap-4 relative z-10"><i data-lucide="headset" class="text-eumn-200"></i> 원격지원</h2>
+                    <p class="text-eumn-100 text-xs md:text-2xl font-light italic mb-6 md:mb-8 opacity-80 relative z-10">이음엔 전문가가 바로 해결해 드립니다.</p>
                 </div>
                 <div class="bg-white p-6 md:p-20 flex flex-col md:flex-row justify-center gap-4 md:gap-10 flex-1">
-                    <a href="https://bmwise.co.kr/help/bmwise-1.exe" class="py-8 md:py-16 border-2 md:border-4 border-eumn-900 rounded-2xl md:rounded-3xl text-eumn-900 font-black text-lg md:text-4xl hover:bg-eumn-900 hover:text-white transition flex flex-col items-center flex-1 group"><i data-lucide="monitor-down" class="text-eumn-500 mb-4 w-10 h-10 md:w-20 md:h-20 group-hover:scale-110 transition"></i>1번 연결</a>
-                    <a href="https://bmwise.co.kr/help/bmwise-2.exe" class="py-8 md:py-16 border-2 md:border-4 border-eumn-900 rounded-2xl md:rounded-3xl text-eumn-900 font-black text-lg md:text-4xl hover:bg-eumn-900 hover:text-white transition flex flex-col items-center flex-1 group"><i data-lucide="monitor-down" class="text-eumn-500 mb-4 w-10 h-10 md:w-20 md:h-20 group-hover:scale-110 transition"></i>2번 연결</a>
+                    <a href="https://bmwise.co.kr/help/bmwise-1.exe" class="py-6 md:py-16 border-2 md:border-4 border-eumn-900 rounded-2xl md:rounded-3xl text-eumn-900 font-black text-lg md:text-4xl hover:bg-eumn-900 hover:text-white transition flex flex-col items-center flex-1 group"><i data-lucide="monitor-down" class="text-eumn-500 mb-2 w-8 h-8 md:w-20 md:h-20 group-hover:scale-110 transition"></i>1번 연결</a>
+                    <a href="https://bmwise.co.kr/help/bmwise-2.exe" class="py-6 md:py-16 border-2 md:border-4 border-eumn-900 rounded-2xl md:rounded-3xl text-eumn-900 font-black text-lg md:text-4xl hover:bg-eumn-900 hover:text-white transition flex flex-col items-center flex-1 group"><i data-lucide="monitor-down" class="text-eumn-500 mb-2 w-8 h-8 md:w-20 md:h-20 group-hover:scale-110 transition"></i>2번 연결</a>
                 </div>
             </div>
         </div>
@@ -365,20 +373,20 @@
 
     <!-- [6] 오시는 길 -->
     <section id="location" class="snap-page bg-white flex flex-col overflow-hidden">
-        <div class="flex-1 flex flex-col justify-start max-w-7xl mx-auto px-4 w-full py-10 md:py-16 overflow-hidden">
-            <div class="text-center mb-6 md:mb-10 shrink-0" data-aos="fade-up"><h2 class="text-2xl lg:text-5xl font-black text-eumn-900 mb-2 uppercase relative inline-block">Location</h2><p class="text-gray-600 mt-2 text-sm md:text-lg">이음엔 오시는 길</p></div>
+        <div class="flex-1 flex flex-col justify-start max-w-7xl mx-auto px-4 w-full py-8 md:py-16 overflow-hidden">
+            <div class="text-center mb-6 md:mb-10 shrink-0" data-aos="fade-up"><h2 class="text-2xl lg:text-5xl font-black text-eumn-900 mb-2 uppercase relative inline-block">Location</h2><p class="text-gray-600 mt-2 text-sm md:text-lg font-medium">이음엔 오시는 길</p></div>
             <div class="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden flex flex-col md:flex-row flex-1 min-h-[400px]" data-aos="fade-up">
-                <div class="h-56 md:h-auto md:w-3/5 relative bg-gray-200">
-                    <div id="marker" class="enhanced-marker"><div class="map-marker-card"><div class="bg-eumn-900 p-1.5 rounded-lg"><img src="images/logo.png" class="h-4 brightness-0 invert"></div><div class="text-left font-black text-[11px] text-eumn-900">이음엔</div></div><div class="arrow-pin"></div><div class="target-ping"></div></div>
+                <div class="h-48 md:h-auto md:w-3/5 relative bg-gray-200">
+                    <div id="marker" class="enhanced-marker"><div class="map-marker-card"><div class="bg-eumn-900 p-1 rounded-lg"><img src="images/logo.png" class="h-3 brightness-0 invert"></div><div class="text-left font-black text-[11px] text-eumn-900">이음엔</div></div><div class="arrow-pin"></div><div class="target-ping"></div></div>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3166.166316263884!2d126.88450147648347!3d37.46864432906322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357c9e2b102b4d3b%3A0x6b093282eb1119b4!2z64yA66Wt7YWM7YGs64W47YOA7Jq0MjDssKg!5e0!3m2!1sko!2skr!4v1710000000000" class="absolute inset-0 w-full h-full border-0 pointer-events-none" allowfullscreen="" loading="lazy"></iframe>
                 </div>
-                <div class="p-8 md:p-16 flex flex-col justify-center space-y-8 md:w-2/5 bg-gray-50">
-                    <div><h4 class="text-eumn-900 font-black text-lg md:text-2xl mb-2 flex items-center gap-3"><i data-lucide="map-pin" class="text-eumn-500 w-6 h-6"></i> 회사 주소</h4><p class="text-gray-600 text-sm md:text-xl leading-relaxed">서울시 금천구 가산디지털1로 5,<br>2004호 (가산동, 대륭테크노타운 20차)</p></div>
-                    <div><h4 class="text-eumn-900 font-black text-lg md:text-2xl mb-2 flex items-center gap-3"><i data-lucide="train" class="text-eumn-500 w-6 h-6"></i> 전철 이용</h4><p class="text-gray-600 text-sm md:text-xl"><span class="text-eumn-900 font-black">1호선 독산역 2번 출구</span> (도보 3분)</p></div>
+                <div class="p-6 md:p-16 flex flex-col justify-center space-y-6 md:w-2/5 bg-gray-50">
+                    <div><h4 class="text-eumn-900 font-black text-lg md:text-2xl mb-1 flex items-center gap-3"><i data-lucide="map-pin" class="text-eumn-500 w-6 h-6"></i> 회사 주소</h4><p class="text-gray-600 text-sm md:text-xl">서울시 금천구 가산디지털1로 5, 2004호</p></div>
+                    <div><h4 class="text-eumn-900 font-black text-lg md:text-2xl mb-1 flex items-center gap-3"><i data-lucide="train" class="text-eumn-500 w-6 h-6"></i> 전철 이용</h4><p class="text-gray-600 text-sm md:text-xl"><span class="text-eumn-900 font-black">독산역 2번 출구</span> (도보 3분)</p></div>
                 </div>
             </div>
         </div>
-        <footer class="bg-eumn-900 text-white/50 py-6 text-center text-[10px] md:text-sm shrink-0"><p class="mb-1 text-eumn-100 px-4">서울 금천구 가산디지털1로 5, 2004호 (대륭테크노타운 20차)</p><p class="opacity-30 uppercase text-[9px]">Copyright © EUMN CO., LTD. ALL RIGHTS RESERVED.</p></footer>
+        <footer class="bg-eumn-900 text-white/50 py-6 text-center text-[10px] md:text-sm shrink-0"><p class="mb-1 text-eumn-100">서울 금천구 가산디지털1로 5, 2004호</p><p class="opacity-30 uppercase text-[9px]">Copyright © EUMN CO., LTD. ALL RIGHTS RESERVED.</p></footer>
     </section>
 
     <!-- 모바일 하단 고정 바 -->
